@@ -1,0 +1,24 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int     @id @default(autoincrement())
+  email      String  @unique
+  name       String?
+  position Position @default(PEON)
+  friendedBy User[]  @relation("UserFriends", references: [id])
+  friendedTo User[]  @relation("UserFriends", references: [id])
+}
+
+enum Position {
+  CEO
+  SALES
+  HR
+  PEON
+}
